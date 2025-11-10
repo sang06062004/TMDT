@@ -1,10 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using MyEStore.Entities;
 using ThanhToanPayPal.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<MyeStoreContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyDb"));
+});
 builder.Services.AddSingleton(x =>
     new PaypalClient(
         builder.Configuration["PayPalOptions:ClientId"],
